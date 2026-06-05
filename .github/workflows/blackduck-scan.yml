@@ -1,0 +1,31 @@
+name: Black Duck SCA Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  blackduck-scan:
+    runs-on: ubuntu-latest
+
+    env:
+      DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
+      DETECT_PROJECT_VERSION_NAME: ${{ github.event_name != 'pull_request' && github.ref_name || github.event.pull_request.base.ref }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Black Duck Security Scan
+        uses: blackduck-inc/black-duck-security-scan@v2
+        with:
+          blackducksca_url: ${{ secrets.BLACKDUCK_URL }}
+          blackducksca_token: ${{ secrets.BLACKDUCK_API_TOKEN }}
+          blackducksca_scan_full: ${{ github.event_name != 'pull_request' && 'true' || 'false' }}
+          blackducksca_prcomment_enabled: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
+          blackducksca_externalIssues_create: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
