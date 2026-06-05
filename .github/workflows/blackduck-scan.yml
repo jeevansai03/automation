@@ -28,4 +28,5 @@ jobs:
           blackducksca_scan_full: ${{ github.event_name != 'pull_request' && 'true' || 'false' }}
           blackducksca_prcomment_enabled: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
           blackducksca_externalIssues_create: true
+          blackducksca_detect_args: --blackduck.trust.cert=true --logging.level.detect=DEBUG --detect.cleanup=false
           github_token: ${{ secrets.GITHUB_TOKEN }}
