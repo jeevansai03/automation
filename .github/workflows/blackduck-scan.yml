@@ -10,7 +10,7 @@ on:
 
 jobs:
   blackduck-scan:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted    # <-- Changed from ubuntu-latest
 
     env:
       DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
