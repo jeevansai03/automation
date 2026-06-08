@@ -12,6 +12,10 @@ jobs:
   blackduck-scan:
     runs-on: self-hosted    # <-- Changed from ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: automation
+
     env:
       DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
       DETECT_PROJECT_VERSION_NAME: ${{ github.event_name != 'pull_request' && github.ref_name || github.event.pull_request.base.ref }}
@@ -19,10 +23,18 @@ jobs:
       LOGGING_LEVEL_DETECT: 'DEBUG'
       DETECT_CLEANUP: 'false'
       DETECT_TOOLS: 'DETECTOR'
+      DETECT_SOURCE_PATH: ${{ github.workspace }}/automation
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Verify pom.xml
+        run: |
+          echo "=== Current Directory ==="
+          pwd
+          echo "=== pom.xml found ==="
+          ls -la pom.xml
 
       - name: Verify Java and Maven
         run: |
