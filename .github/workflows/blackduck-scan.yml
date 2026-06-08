@@ -24,6 +24,20 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: '3.9.6'
+
+      - name: Build with Maven (resolve dependencies)
+        run: mvn dependency:resolve -B
+
       - name: Run Black Duck Security Scan
         uses: blackduck-inc/black-duck-security-scan@v2
         with:
