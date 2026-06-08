@@ -29,13 +29,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Verify pom.xml
-        run: |
-          echo "=== Current Directory ==="
-          pwd
-          echo "=== pom.xml found ==="
-          ls -la pom.xml
-
       - name: Verify Java and Maven
         run: |
           echo "=== Java Version ==="
@@ -51,8 +44,7 @@ jobs:
         with:
           blackducksca_url: ${{ secrets.BLACKDUCK_URL }}
           blackducksca_token: ${{ secrets.BLACKDUCK_API_TOKEN }}
-          blackducksca_scan_full: ${{ github.event_name != 'pull_request' && 'true' || 'false' }}
-          blackducksca_prcomment_enabled: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
-          blackducksca_externalIssues_create: true
-          blackducksca_detect_args: --blackduck.trust.cert=true --logging.level.detect=DEBUG --detect.cleanup=false
+          blackducksca_scan_full: true
+          blackducksca_externalIssues_create: false
+          blackducksca_reports_sarif_create: false
           github_token: ${{ secrets.GITHUB_TOKEN }}
