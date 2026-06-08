@@ -18,6 +18,7 @@ jobs:
       BLACKDUCK_TRUST_CERT: 'true'
       LOGGING_LEVEL_DETECT: 'DEBUG'
       DETECT_CLEANUP: 'false'
+      DETECT_TOOLS: 'DETECTOR'
 
     steps:
       - name: Checkout Repository
